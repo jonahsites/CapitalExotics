@@ -3,402 +3,179 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion, useScroll, useTransform } from 'motion/react';
+import React from 'react';
+import { motion } from 'motion/react';
 import { 
-  Car, 
-  MapPin, 
-  Clock, 
-  Shield, 
-  ArrowRight, 
-  Instagram, 
-  Twitter, 
-  Facebook,
-  Menu,
-  X,
-  ChevronRight,
-  Phone,
-  Mail
+  ChevronRight, ArrowRight, Shield, Clock, MapPin, Phone, Mail, Menu
 } from 'lucide-react';
-import { useState, useRef } from 'react';
 
-const cars = [
-  {
-    name: "Lamborghini Huracán Evo",
-    price: "$1,200/day",
-    image: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf0a3?q=80&w=1000&auto=format&fit=crop",
-    accel: "2.9s",
-    topSpeed: "202 mph"
-  },
-  {
-    name: "Ferrari F8 Tributo",
-    price: "$1,500/day",
-    image: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=1000&auto=format&fit=crop",
-    accel: "2.8s",
-    topSpeed: "211 mph"
-  },
-  {
-    name: "Rolls-Royce Ghost",
-    price: "$1,800/day",
-    image: "https://images.unsplash.com/photo-1631215539281-af7cb1cc3c8a?q=80&w=1000&auto=format&fit=crop",
-    accel: "4.7s",
-    topSpeed: "155 mph"
-  },
-  {
-    name: "Porsche 911 GT3",
-    price: "$1,100/day",
-    image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=1000&auto=format&fit=crop",
-    accel: "3.2s",
-    topSpeed: "197 mph"
-  }
-];
-
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <nav className="fixed top-0 w-full z-50 border-b border-white/10 backdrop-blur-md bg-black/50">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-2xl font-display font-semibold tracking-tighter"
-        >
-          CAPITAL EXOTICS
-        </motion.div>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-10">
-          {['Collection', 'Services', 'Membership', 'Contact'].map((item) => (
-            <motion.a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="text-xs uppercase tracking-widest text-white/60 hover:text-white transition-colors"
-              whileHover={{ y: -2 }}
-            >
-              {item}
-            </motion.a>
-          ))}
-          <button className="px-6 py-2 border border-white text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300">
-            Book Now
-          </button>
-        </div>
-
-        {/* Mobile Toggle */}
-        <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X /> : <Menu />}
-        </button>
+const ChromePeakHero = () => (
+  <section className="relative h-screen w-full flex flex-col justify-between p-12 overflow-hidden bg-black text-white font-black italic">
+    <div className="flex justify-between items-center relative z-10 border-b border-white/10 pb-8">
+      <span className="text-[10px] uppercase tracking-[1em] font-sans not-italic font-bold">CAPITAL EXOTICS // DC // MD // VA</span>
+      <div className="hidden md:flex gap-8 text-[10px] uppercase tracking-widest font-bold not-italic">
+        <span>Fleet</span>
+        <span>Services</span>
+        <span>Contact</span>
       </div>
+    </div>
+    <div className="relative z-10 flex flex-col items-center">
+       <h2 className="text-[12vw] tracking-[-0.1em] leading-none uppercase italic">CAPITAL</h2>
+       <div className="h-2 w-full max-w-4xl bg-white" />
+       <h2 className="text-[12vw] font-bold tracking-[0.1em] leading-none uppercase -mt-4 opacity-40">EXOTICS</h2>
+    </div>
+    <div className="flex flex-col md:flex-row justify-between items-center relative z-10 gap-8">
+      <span className="text-2xl md:text-4xl font-black uppercase tracking-tighter">The Ultimate Fleet.</span>
+      <button className="px-24 py-10 bg-white text-black font-black uppercase text-xl hover:bg-neutral-200 transition-colors">ENGAGE</button>
+    </div>
+  </section>
+);
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="absolute top-20 left-0 w-full bg-brand-black border-b border-white/10 p-10 flex flex-col gap-6 md:hidden"
-        >
-          {['Collection', 'Services', 'Membership', 'Contact'].map((item) => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="text-xl uppercase tracking-widest" onClick={() => setIsOpen(false)}>
-              {item}
-            </a>
-          ))}
-          <button className="w-full py-4 border border-white text-xs uppercase tracking-widest mt-4">
-            Book Now
-          </button>
-        </motion.div>
-      )}
-    </nav>
-  );
-};
-
-const Hero = () => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"]
-  });
-  
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
-  return (
-    <section ref={ref} className="relative h-screen flex items-center justify-center overflow-hidden grainy-bg">
-      <motion.div 
-        style={{ y, opacity }}
-        className="absolute inset-0 z-0"
-      >
-        <img 
-          src="https://images.unsplash.com/photo-1544636331-e26859203199?q=80&w=2000&auto=format&fit=crop" 
-          alt="Luxury car dashboard" 
-          className="w-full h-full object-cover grayscale opacity-40 mix-blend-luminosity"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-black/20 to-brand-black" />
-      </motion.div>
-
-      <div className="relative z-10 text-center px-6">
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-xs uppercase tracking-[0.5em] text-white/50 mb-6"
-        >
-          The Zenith of Motion
-        </motion.p>
-        <motion.h1 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="text-6xl md:text-9xl font-display font-semibold tracking-tighter leading-none mb-8"
-        >
-          UNCOMPROMISED<br />
-          <span className="font-serif italic font-normal">PRECISION</span>
-        </motion.h1>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="flex flex-col md:flex-row items-center justify-center gap-6"
-        >
-          <button className="px-10 py-5 bg-white text-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-transparent hover:text-white border border-white transition-all duration-500">
-            View Collection
-          </button>
-          <button className="px-10 py-5 border border-white/30 text-xs uppercase tracking-[0.2em] font-semibold hover:border-white transition-all duration-500">
-            Our Legacy
-          </button>
-        </motion.div>
+const ProcessHero = () => (
+  <section className="relative h-screen w-full flex flex-col p-12 md:p-24 overflow-hidden bg-white text-black font-sans">
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-12 flex-1">
+      <div className="col-span-1 md:col-span-4 border-b md:border-b-0 md:border-r border-black/10 pb-12 md:pb-0 md:pr-12 flex flex-col justify-between">
+        <h2 className="text-6xl md:text-8xl font-black uppercase leading-none tracking-tighter">THE <br /> PROTOCOL.</h2>
+        <p className="text-sm opacity-40 uppercase tracking-widest leading-relaxed">Three stages to absolute luxury.</p>
       </div>
+      <div className="col-span-1 md:col-span-8 grid grid-rows-3 gap-1 relative">
+         {[ {n: "01", t: "IDENTITY VERIFICATION", d: "Secure biometrics and documentation approval via our encrypted vault." },
+            {n: "02", t: "FLEET SELECTION", d: "Select your desired apparatus from our live-status DMV inventory." },
+            {n: "03", t: "HANDOVER PROTOCOL", d: "GPS-synchronized delivery to your precise location by our concierge." }
+         ].map((step, i) => (
+           <div key={i} className="flex items-center gap-12 group hover:bg-black/5 transition-all p-8 border-b border-black/5">
+              <span className="text-4xl md:text-6xl font-black italic opacity-10 group-hover:opacity-100 transition-opacity">{step.n}</span>
+              <div className="flex flex-col">
+                <span className="text-xl md:text-2xl font-bold uppercase mb-2">{step.t}</span>
+                <p className="max-w-md text-[10px] opacity-40 uppercase tracking-widest leading-relaxed">{step.d}</p>
+              </div>
+           </div>
+         ))}
+      </div>
+    </div>
+  </section>
+);
 
-      <motion.div 
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30"
-      >
-        <div className="w-[1px] h-20 bg-gradient-to-b from-white/50 to-transparent" />
-      </motion.div>
-    </section>
-  );
-};
+const JournalHero = () => (
+  <section className="relative h-screen w-full p-12 md:p-24 overflow-hidden bg-[#0a0a0a] text-white">
+    <div className="flex flex-col md:flex-row gap-12 md:gap-24 items-start mb-20">
+       <span className="text-xs font-black uppercase tracking-[1em] text-white rotate-0 md:rotate-90 origin-left md:translate-y-32 mb-4 md:mb-0">THE_CHRONICLE</span>
+       <h2 className="text-5xl md:text-8xl font-bold italic leading-none border-b border-white/5 pb-8">Luxury in <br /> Transition.</h2>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
+       {[
+         { date: "May 02 // 2026", title: "The Evolution of the V12 Hybrid Platform." },
+         { date: "April 28 // 2026", title: "Chauffeur Etiquette: The Silent Standard." },
+         { date: "April 15 // 2026", title: "Aerodynamics of the Modern Supercar." }
+       ].map((item, i) => (
+         <div key={i} className="flex flex-col gap-6 group cursor-pointer border-l border-white/10 pl-6">
+            <span className="text-[10px] opacity-20 uppercase tracking-[0.4em]">{item.date}</span>
+            <h3 className="text-xl md:text-2xl font-bold italic group-hover:text-neutral-400 transition-colors">{item.title}</h3>
+            <p className="text-sm opacity-40 leading-relaxed font-light">An analysis of the architectural shift in modern performance engineering and lifestyle concierge.</p>
+         </div>
+       ))}
+    </div>
+  </section>
+);
 
-const Collection = () => {
-  return (
-    <section id="collection" className="py-32 bg-brand-black">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-          <div>
-            <span className="text-xs uppercase tracking-widest text-white/40 mb-4 block">Fleet Selection 2024</span>
-            <h2 className="text-4xl md:text-6xl font-display font-medium tracking-tight">The Curation</h2>
-          </div>
-          <p className="max-w-md text-white/50 text-sm leading-relaxed">
-            A meticulously maintained ensemble of the world's most sought-after machinery. 
-            Engineered for those who demand excellence as standard.
-          </p>
+const FashionShowcase = () => (
+  <section className="relative h-screen w-full grid grid-cols-1 md:grid-cols-12 overflow-hidden bg-[#0a0a0a] text-white">
+     <div className="col-span-1 md:col-span-5 p-12 md:p-24 flex flex-col justify-between border-b md:border-b-0 md:border-r border-white/5 relative bg-white/5 z-10">
+        <div className="flex flex-col gap-8">
+           <span className="text-xl italic font-bold text-white mb-8">Selected Series // V.01</span>
+           <h2 className="text-6xl md:text-[8vw] font-black leading-[0.8] tracking-tighter uppercase">THE <br /> EXOTIC <br /> <span className="italic font-bold text-white opacity-40">STUDY.</span></h2>
         </div>
+        <button className="text-xl md:text-2xl font-bold italic border-b-2 border-white pb-2 w-fit mt-12 hover:opacity-70 transition-opacity">Request Details</button>
+     </div>
+     <div className="col-span-1 md:col-span-7 relative h-full flex items-center justify-center bg-black">
+        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=2670" className="h-full w-full object-cover grayscale opacity-50 transition-opacity duration-1000" />
+        <div className="absolute top-12 right-12 flex flex-col items-end gap-2 text-right">
+           <span className="text-[10px] uppercase font-black tracking-[0.5em] text-white opacity-40">Location</span>
+           <span className="text-xl font-bold uppercase italic">Washington_DC</span>
+        </div>
+        <div className="absolute bottom-12 left-12 md:left-auto md:right-12 p-8 border border-white/10 bg-black/40 backdrop-blur-xl">
+           <span className="text-xs uppercase tracking-[0.3em] font-bold">In Stock // Immediate Departure</span>
+        </div>
+     </div>
+  </section>
+);
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-20">
-          {cars.map((car, i) => (
-            <motion.div 
-              key={car.name}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="group cursor-pointer"
-            >
-              <div className="relative aspect-[16/9] overflow-hidden mb-6">
-                <motion.img 
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-                  src={car.image} 
-                  alt={car.name} 
-                  className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700"
-                />
-                <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md px-4 py-2 border border-white/10">
-                  <span className="text-[10px] uppercase tracking-widest font-medium">{car.price}</span>
-                </div>
-              </div>
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-xl font-display mb-2">{car.name}</h3>
-                  <div className="flex gap-6 text-[10px] uppercase tracking-widest text-white/40 font-medium">
-                    <span>0-60: {car.accel}</span>
-                    <span>Top: {car.topSpeed}</span>
-                  </div>
-                </div>
-                <div className="p-3 border border-white/10 rounded-full group-hover:bg-white group-hover:text-black transition-all">
-                  <ArrowRight size={16} />
-                </div>
-              </div>
-            </motion.div>
-          ))}
+const StripsLibrary = () => (
+  <section className="relative h-screen w-full flex flex-col md:flex-row overflow-hidden bg-black text-white font-black italic">
+    {["HYBRID", "NATURAL", "TURBO", "TACTICAL"].map((cat, i) => (
+      <div key={i} className="flex-1 border-b md:border-b-0 md:border-r border-white/10 group cursor-pointer relative overflow-hidden hover:flex-[2] transition-all duration-700">
+         <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+         <div className="h-full flex flex-col items-center justify-center py-20">
+            <span className="text-6xl md:text-[10vw] uppercase leading-none md:vertical-text tracking-tighter opacity-20 group-hover:opacity-100 transition-opacity whitespace-nowrap">{cat}</span>
+         </div>
+         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0 hidden md:flex">
+            <span className="text-[10px] not-italic tracking-widest uppercase">Explore_Category</span>
+            <ArrowRight size={24} className="-rotate-90" />
+         </div>
+      </div>
+    ))}
+  </section>
+);
+
+const HeroVisual = () => (
+  <section className="min-h-screen w-full flex flex-col items-center pt-32 pb-12 px-6 bg-[#0a0a0a] text-white border-t border-white/5">
+    <div className="max-w-4xl w-full text-center mb-24">
+       <span className="text-[10px] tracking-[0.8em] text-white/40 uppercase font-bold mb-6 block">V12_Architecture</span>
+       <h1 className="text-5xl md:text-8xl font-bold italic leading-[0.9] tracking-tighter mb-8 italic">THE FUTURE OF <br /> ANALOGUE FAST.</h1>
+       <p className="text-lg opacity-40 max-w-xl mx-auto italic mb-12 uppercase tracking-widest text-sm font-bold">Capital Exotics: Engineered for the discerning few.</p>
+       <div className="flex flex-col md:flex-row gap-4 justify-center">
+          <button className="px-12 py-4 bg-white text-black font-black uppercase text-[10px] tracking-widest hover:bg-neutral-200 transition-all">Request Access</button>
+          <button className="px-12 py-4 border border-white/20 font-black uppercase text-[10px] tracking-widest hover:border-white transition-all">Protocol_Info</button>
+       </div>
+    </div>
+    <div className="w-full max-w-7xl aspect-video bg-white/5 border border-white/10 overflow-hidden relative group">
+       <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=2670" className="w-full h-full object-cover grayscale opacity-20 group-hover:opacity-40 transition-all duration-1000 group-hover:scale-105" />
+       <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60" />
+    </div>
+  </section>
+);
+
+const Footer = () => (
+  <footer className="bg-black text-white p-12 md:p-24 border-t border-white/10">
+    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
+      <div className="md:col-span-6">
+        <h3 className="text-4xl md:text-6xl font-black italic tracking-tighter mb-8">CAPITAL EXOTICS.</h3>
+        <p className="text-sm opacity-40 max-w-sm uppercase tracking-widest leading-relaxed">The pinnacle of exotic rentals and luxury lifestyle concierge in the DMV area.</p>
+      </div>
+      <div className="md:col-span-3">
+        <span className="text-[10px] uppercase font-bold tracking-[0.3em] opacity-20 block mb-6">Contact</span>
+        <div className="flex flex-col gap-4 text-sm font-bold uppercase tracking-widest">
+           <a href="mailto:concierge@capitalexotics.com" className="hover:opacity-60 transition-opacity">E: Concierge@CapitalExotics.com</a>
+           <a href="tel:+15550123" className="hover:opacity-60 transition-opacity">T: +1 (555) 000-0000</a>
         </div>
       </div>
-    </section>
-  );
-};
-
-const Services = () => {
-  const services = [
-    {
-      title: "Airport Chauffeur",
-      desc: "Discreet, secure transportation from regional hubs to your final destination.",
-      icon: <MapPin size={24} />
-    },
-    {
-      title: "Luxury Concierge",
-      desc: "Bespoke arrangements for travel, dinning, and exclusive event access.",
-      icon: <Shield size={24} />
-    },
-    {
-      title: "Long-term Fleet",
-      desc: "Preferred rates for extended engagements and corporate requirements.",
-      icon: <Clock size={24} />
-    }
-  ];
-
-  return (
-    <section id="services" className="py-32 bg-brand-gray relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl font-display mb-4">Beyond the Drive</h2>
-          <p className="text-white/40 max-w-lg mx-auto text-sm">Elevating your experience through dedicated personal services tailored for the discerning traveler.</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {services.map((service, i) => (
-            <motion.div 
-              key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="p-10 border border-white/5 hover:border-white/20 transition-all bg-brand-black/30"
-            >
-              <div className="text-white/40 mb-6">{service.icon}</div>
-              <h3 className="text-xl font-display mb-4 uppercase tracking-tighter">{service.title}</h3>
-              <p className="text-white/40 text-sm leading-relaxed">{service.desc}</p>
-            </motion.div>
-          ))}
+      <div className="md:col-span-3">
+        <span className="text-[10px] uppercase font-bold tracking-[0.3em] opacity-20 block mb-6">Social</span>
+        <div className="flex items-center gap-6">
+          <div className="w-10 h-10 border border-white/10 flex items-center justify-center hover:border-white cursor-pointer transition-colors font-bold uppercase text-[10px]">IG</div>
+          <div className="w-10 h-10 border border-white/10 flex items-center justify-center hover:border-white cursor-pointer transition-colors font-bold uppercase text-[10px]">TW</div>
+          <div className="w-10 h-10 border border-white/10 flex items-center justify-center hover:border-white cursor-pointer transition-colors font-bold uppercase text-[10px]">FB</div>
         </div>
       </div>
-    </section>
-  );
-};
-
-const Footer = () => {
-  return (
-    <footer id="contact" className="bg-brand-black border-t border-white/5 pt-32 pb-10">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 mb-32">
-          <div>
-            <h2 className="text-6xl font-display font-semibold mb-10 tracking-tighter">LET'S CONNECT</h2>
-            <div className="space-y-6">
-              <div className="flex items-center gap-4 text-white/60">
-                <Phone size={18} />
-                <span className="text-sm font-medium tracking-widest">+1 (800) EXOTICS</span>
-              </div>
-              <div className="flex items-center gap-4 text-white/60">
-                <Mail size={18} />
-                <span className="text-sm font-medium tracking-widest">concierge@capitalexotics.com</span>
-              </div>
-              <div className="flex items-center gap-4 text-white/60">
-                <MapPin size={18} />
-                <span className="text-sm font-medium tracking-widest">1200 Luxury Way, Beverly Hills, CA</span>
-              </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-10">
-            <div>
-              <h4 className="text-[10px] uppercase tracking-[0.3em] text-white/30 mb-8 font-bold">Company</h4>
-              <ul className="space-y-4 text-sm font-light text-white/60">
-                <li><a href="#" className="hover:text-white transition-colors">Our Story</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Career</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Safety</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Reviews</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-[10px] uppercase tracking-[0.3em] text-white/30 mb-8 font-bold">Social</h4>
-              <ul className="space-y-4 text-sm font-light text-white/60">
-                <li className="flex items-center gap-2"><Instagram size={14} /><a href="#" className="hover:text-white transition-colors">Instagram</a></li>
-                <li className="flex items-center gap-2"><Twitter size={14} /><a href="#" className="hover:text-white transition-colors">Twitter</a></li>
-                <li className="flex items-center gap-2"><Facebook size={14} /><a href="#" className="hover:text-white transition-colors">Facebook</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-white/5 gap-6">
-          <div className="text-[10px] uppercase tracking-widest text-white/20">
-            © 2024 CAPITAL EXOTICS. ALL RIGHTS RESERVED.
-          </div>
-          <div className="flex gap-8 text-[10px] uppercase tracking-widest text-white/20">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-};
+    </div>
+    <div className="mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] uppercase tracking-widest opacity-20 gap-4">
+      <span>© 2024 CAPITAL EXOTICS. ALL RIGHTS RESERVED.</span>
+      <span>ESTABLISHED IN THE DMV.</span>
+    </div>
+  </footer>
+);
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-brand-black text-brand-white selection:bg-white selection:text-black">
-      <Navbar />
-      <Hero />
-      <Collection />
-      <Services />
-      
-      {/* Narrative Section */}
-      <section className="py-40 bg-white text-black overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-20">
-            <div className="lg:w-1/2">
-              <span className="text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block opacity-40">Since 1998</span>
-              <h2 className="text-5xl md:text-7xl font-display font-semibold tracking-tighter mb-10 leading-none">
-                CRAFTING<br />
-                <span className="italic font-serif font-normal">UNFORGETTABLE</span><br />
-                MOMENTS
-              </h2>
-              <p className="text-black/60 text-lg leading-relaxed mb-12 max-w-md">
-                We believe that the vehicle you choose is a reflection of your ambition. 
-                Capital Exotics was founded on the principle that luxury is not just a 
-                possession, but an experience that remains etched in memory.
-              </p>
-              <button className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest group">
-                Deep Dive into our Story
-                <motion.div 
-                  whileHover={{ x: 10 }}
-                  className="p-3 bg-black text-white rounded-full"
-                >
-                  <ChevronRight size={18} />
-                </motion.div>
-              </button>
-            </div>
-            <div className="lg:w-1/2 relative">
-               <motion.div 
-                 initial={{ scale: 1.1, opacity: 0 }}
-                 whileInView={{ scale: 1, opacity: 1 }}
-                 transition={{ duration: 1.5 }}
-                 className="aspect-square bg-neutral-200 overflow-hidden rounded-2xl"
-               >
-                 <img 
-                   src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2000&auto=format&fit=crop" 
-                   alt="Classic luxury interior" 
-                   className="w-full h-full object-cover grayscale"
-                 />
-               </motion.div>
-               <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-brand-black p-1 hidden lg:block">
-                  <div className="w-full h-full border border-white/20 flex items-center justify-center p-8 text-center">
-                    <p className="text-[10px] uppercase leading-relaxed tracking-widest text-white/60">
-                      "Excellence is not an act, but a habit."
-                    </p>
-                  </div>
-               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+    <div className="bg-[#050505] text-white w-full min-h-screen overflow-x-hidden selection:bg-white selection:text-black font-sans">
+      <ChromePeakHero />
+      <ProcessHero />
+      <JournalHero />
+      <FashionShowcase />
+      <StripsLibrary />
+      <HeroVisual />
       <Footer />
     </div>
   );
 }
+
